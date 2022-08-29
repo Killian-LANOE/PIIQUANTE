@@ -6,10 +6,11 @@ const multer = require('../middleware/multer-config')
 
 const productCtrl = require('../controllers/product')
 
-router.get('/', auth, productCtrl.getAllProducts)
-router.post('/', auth, multer, productCtrl.createProduct)
-router.get('/:id', auth, productCtrl.getOneProduct)
+router.get('/', auth, productCtrl.getAllSauces)
+router.post('/', auth, multer, productCtrl.createSauce)
+router.get('/:id', auth, productCtrl.getOneSauce)
 router.put('/:id', auth, multer, productCtrl.modifySauce)
 router.delete('/:id', auth, productCtrl.deleteSauce)
+router.post('/:id/like', auth, productCtrl.likes)
 
 module.exports = router;

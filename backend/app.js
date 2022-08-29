@@ -1,20 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose')
 const path = require('path')
+const helmet = require('helmet')
+const app = express();
+require('dotenv').config()
 
 const userRoutes = require('./routes/user')
 const productRoutes = require('./routes/product')
 
-mongoose.connect('mongodb+srv://killian:killian@cluster0.xrnytdj.mongodb.net/?retryWrites=true&w=majority',
+app.use(express.json());
+app.use(helmet())
+
+mongoose.connect('mongodb+srv://' + process.env.MDB_User + ':' + process.env.MDB_Pass + '@cluster0.xrnytdj.mongodb.net/?retryWrites=true&w=majority',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
-
-
-const app = express();
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,7 +26,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.json());
 
 app.use('/api/sauces', productRoutes);
 app.use('/api/auth', userRoutes);
